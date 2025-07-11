@@ -5,48 +5,59 @@ class Dashboard extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        // Pastikan pengguna sudah login, jika tidak, arahkan ke halaman login
-        if (!$this->session->userdata('user')) {
+
+        if (!$this->session->userdata('logged_in')) {
             redirect('auth/login');
         }
-        // Load model atau library lain yang dibutuhkan di dashboard
-        $this->load->model('m_crud'); // Asumsi ini adalah model untuk data mahasiswa
-        $this->load->model('m_kelas');
-        $this->load->model('m_matakuliah');
-        $this->load->model('m_dosen');
+
+        $this->load->model('m_dokter');
+        $this->load->model('m_pasien');
+        $this->load->model('m_kunjungan');
+        $this->load->model('m_users');
     }
 
-    /**
-     * Helper function untuk memuat template utama.
-     * Menggabungkan header, sidebar, konten spesifik, dan footer.
-     *
-     * @param string $content_view Nama file view yang akan dimuat sebagai konten utama.
-     * @param array $data Data yang akan diteruskan ke content_view.
-     */
     private function _load_template($content_view, $data = array()) {
-        // Memuat header dari folder templates
-        $this->load->view('templates/header');
-        // Memuat sidebar dari folder templates
-        $this->load->view('templates/sidebar');
-
-        // Memuat konten spesifik halaman (misalnya dashboard.php)
-        // Semua data dari controller ($data) akan tersedia di view ini
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
         $this->load->view($content_view, $data);
-
-        // Memuat footer dari folder templates
-        $this->load->view('templates/footer');
+        $this->load->view('templates/footer', $data);
     }
 
     public function index() {
+        $role = $this->session->userdata('role');
         $data['title'] = 'Dashboard';
-        // Mengambil jumlah total data dari masing-masing model
-        $data['jml_mhs'] = $this->m_crud->get_total_mahasiswa();
-        $data['jml_kelas'] = $this->m_kelas->get_total_kelas();
-        $data['jml_mk'] = $this->m_matakuliah->get_total_matakuliah();
-        $data['jml_dsn'] = $this->m_dosen->get_total_dosen();
 
-        // Memanggil helper function _load_template untuk merender halaman dashboard
-        // 'dashboard' adalah nama file view yang berisi konten spesifik dashboard Anda
-        $this->_load_template('page/dashboard', $data);
+        if ($role == 'admin') {
+            // Statistik total untuk admin
+            $data['jml_dokter']    = $this->m_dokter->get_total();
+            $data['jml_pasien']    = $this->m_pasien->get_total();
+            $data['jml_kunjungan'] = $this->m_kunjungan->get_total();
+            $data['jml_users']     = $this->m_users->get_total();
+
+            $data['kunjungan_terbaru'] = $this->m_kunjungan->tampil_data()->result(); // misalnya admin bisa lihat semua
+
+            $this->_load_template('dashboard/admin', $data);
+
+        } elseif ($role == 'dokter') {
+            $id_dokter = $this->session->userdata('id_dokter');
+
+            $data['title'] = 'Dashboard Dokter';
+            $data['jml_kunjungan'] = $this->m_kunjungan->count_by_dokter($id_dokter);
+            $data['kunjungan'] = $this->m_kunjungan->get_by_dokter($id_dokter, false); // tampilkan yang belum selesai
+
+            $this->_load_template('dashboard/dokter', $data);
+        }
+
+        } elseif ($role == 'pasien') {
+            $id_pasien = $this->session->userdata('id_pasien');
+
+            $data['jml_kunjungan'] = $this->m_kunjungan->count_by_pasien($id_pasien);
+            $data['riwayat']       = $this->m_kunjungan->get_by_pasien($id_pasien);
+
+            $this->_load_template('dashboard/pasien', $data);
+
+        } else {
+            show_error('Role tidak dikenali');
+        }
     }
 }

@@ -49,55 +49,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-// Default Controller dan 404
-$route['default_controller'] = 'auth/login'; // Alihkan ke login sebagai default
+$route['default_controller'] = 'Page'; // Arahkan ke dashboard (dicek login)
 $route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE; // Biarkan FALSE jika URL Anda tidak menggunakan dashes
+$route['translate_uri_dashes'] = FALSE;
 
-// --- Autentikasi ---
-$route['login'] = 'auth/login';
-$route['register'] = 'auth/register';
-$route['auth/login_action'] = 'auth/login_action';
-$route['auth/register_action'] = 'auth/register_action';
-$route['auth/logout'] = 'auth/logout';
+// Login & Auth
+$route['login']               = 'auth/login';
+$route['register']            = 'auth/register';
+$route['auth/login_action']   = 'auth/login_action';
+$route['auth/register_action']= 'auth/register_action';
+$route['auth/logout']         = 'auth/logout';
 
-// --- Dashboard ---
-// Mengarahkan URL 'dashboard' ke controller Page, method index
-$route['dashboard'] = 'page/index'; // Atau 'page/dashboard' jika Anda punya method dashboard()
-
-// --- Data Mahasiswa (Tampilan List) ---
-// Mengarahkan URL 'page/mahasiswa' ke controller Page, method mahasiswa
-$route['page/mahasiswa'] = 'page/mahasiswa'; // Untuk menampilkan daftar mahasiswa dari Page controller
-
-// --- Data Mahasiswa (CRUD Aksi) ---
-// Semua aksi CRUD mahasiswa diarahkan ke controller Mahasiswa
-$route['mahasiswa'] = 'mahasiswa/index'; // Akses langsung ke daftar mahasiswa (opsional, jika Mahasiswa/index menampilkan daftar)
-$route['mahasiswa/tambah'] = 'mahasiswa/tambah'; // Menampilkan form tambah
-$route['mahasiswa/tambah_aksi'] = 'mahasiswa/tambah_aksi'; // Memproses tambah
-$route['mahasiswa/hapus/(:num)'] = 'mahasiswa/hapus/$1';
-$route['mahasiswa/edit/(:num)'] = 'mahasiswa/edit/$1'; // Menampilkan form edit
-$route['mahasiswa/update'] = 'mahasiswa/update'; // Memproses update
-
-// --- Data Kelas ---
-$route['kelas'] = 'kelas/index';
-$route['kelas/tambah'] = 'kelas/tambah';
-$route['kelas/tambah_aksi'] = 'kelas/tambah_aksi';
-$route['kelas/hapus/(:num)'] = 'kelas/hapus/$1';
-$route['kelas/edit/(:num)'] = 'kelas/edit/$1';
-$route['kelas/update'] = 'kelas/update';
-
-// --- Data Mata Kuliah ---
-$route['matakuliah'] = 'matakuliah/index';
-$route['matakuliah/tambah'] = 'matakuliah/tambah';
-$route['matakuliah/tambah_aksi'] = 'matakuliah/tambah_aksi';
-$route['matakuliah/hapus/(:num)'] = 'matakuliah/hapus/$1';
-$route['matakuliah/edit/(:num)'] = 'matakuliah/edit/$1';
-$route['matakuliah/update'] = 'matakuliah/update';
-
-// --- Data Dosen ---
-$route['dosen'] = 'dosen/index';
-$route['dosen/tambah'] = 'dosen/tambah';
-$route['dosen/tambah_aksi'] = 'dosen/tambah_aksi';
-$route['dosen/hapus/(:num)'] = 'dosen/hapus/$1';
-$route['dosen/edit/(:num)'] = 'dosen/edit/$1';
-$route['dosen/update'] = 'dosen/update';
+// Dashboard
+$route['dashboard'] = 'page/index';

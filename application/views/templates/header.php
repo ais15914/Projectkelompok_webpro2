@@ -55,33 +55,10 @@
                 <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
               </a>
             </li>
-            <li class="nav-item dropdown user-menu">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <img
-                  src="<?= base_url('assets/assets/img/user.jpg') ?>"
-                  class="user-image rounded-circle shadow"
-                  alt="User Image"
-                />
-                <span class="d-none d-md-inline">Shindy Lianti</span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <li class="user-header text-bg-primary">
-                  <img
-                    src="<?= base_url('assets/assets/img/user.jpg') ?>"
-                    class="rounded-circle shadow"
-                    alt="User Image"
-                  />
-                  <p>
-                    Shindy Lianti - Informatika S1
-                    <small>NPM 23.0504.0034</small>
-                  </p>
-                </li>
-                <li class="user-footer">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="<?= base_url('auth/logout') ?>" class="btn btn-default btn-flat float-end">Sign out</a>
-                </li>
-              </ul>
+            <li class="user-footer">
+              <a href="<?= base_url('auth/logout') ?>" class="btn btn-default btn-flat w-100 text-center">Sign out</a>
             </li>
+
           </ul>
         </div>
       </nav>

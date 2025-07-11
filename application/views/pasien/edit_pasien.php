@@ -1,0 +1,96 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<main class="app-main">
+  <div class="app-content-header pt-3">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h3 class="mb-0">Data Saya</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">Informasi Pribadi</h5>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                <tr>
+                  <th>Nama Lengkap</th>
+                  <td><?= htmlspecialchars($pasien->nama_pasien ?? '-') ?></td>
+                </tr>
+                <tr>
+                  <th>NIK</th>
+                  <td><?= htmlspecialchars($pasien->nik ?? '-') ?></td>
+                </tr>
+                <tr>
+                  <th>Alamat</th>
+                  <td><?= htmlspecialchars($pasien->alamat ?? '-') ?></td>
+                </tr>
+                <tr>
+                  <th>Tanggal Lahir</th>
+                  <td><?= htmlspecialchars($pasien->tanggal_lahir ?? '-') ?></td>
+                </tr>
+                <tr>
+                  <th>Jenis Kelamin</th>
+                  <td><?= htmlspecialchars($pasien->jenis_kelamin ?? '-') ?></td>
+                </tr>
+              </table>
+
+              <!-- Tombol untuk munculkan form edit -->
+              <button class="btn btn-warning mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#formEdit">
+                Ubah Data
+              </button>
+            </div>
+          </div>
+
+          <!-- Form Edit (disembunyikan dengan collapse) -->
+          <div class="card collapse mt-3" id="formEdit">
+            <div class="card-header"><strong>Edit Data Diri</strong></div>
+            <div class="card-body">
+              <form action="<?= base_url('pasien/update') ?>" method="post">
+                <input type="hidden" name="id_pasien" value="<?= $pasien->id_pasien ?>">
+
+                <div class="mb-3">
+                  <label for="nama_pasien" class="form-label">Nama Lengkap</label>
+                  <input type="text" name="nama_pasien" class="form-control" value="<?= $pasien->nama_pasien ?>" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="nik" class="form-label">NIK</label>
+                  <input type="text" name="nik" class="form-control" value="<?= $pasien->nik ?>" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="alamat" class="form-label">Alamat</label>
+                  <textarea name="alamat" class="form-control" required><?= $pasien->alamat ?></textarea>
+                </div>
+
+                <div class="mb-3">
+                  <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                  <input type="date" name="tanggal_lahir" class="form-control" value="<?= $pasien->tanggal_lahir ?>" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                  <select name="jenis_kelamin" class="form-select" required>
+                    <option value="Laki-laki" <?= $pasien->jenis_kelamin == 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
+                    <option value="Perempuan" <?= $pasien->jenis_kelamin == 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
